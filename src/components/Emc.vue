@@ -56,13 +56,22 @@ export default {
             'data', 'emcAmount', 'autoResource'
         ]),
         sourceCount: function() {
-            if (this.emcAmount == 'max') return Math.max(0, Math.floor((this.data[this.data[this.id].source].count - this.data[this.data[this.id].source].consumption) / this.data[this.id].rate) * this.data[this.id].rate)
-            else return Math.min(this.emcAmount, Math.floor(this.data[this.data[this.id].source].count / this.data[this.id].rate)) * this.data[this.id].rate
+            return this.destinationCount * this.to.rate
         },
         destinationCount: function() {
-            if (this.emcAmount == 'max') return Math.max(0, Math.floor((this.data[this.data[this.id].source].count - this.data[this.data[this.id].source].consumption) / this.data[this.id].rate))
-            else return Math.floor(Math.min(this.emcAmount, this.data[this.data[this.id].source].count / this.data[this.id].rate))
+            if (this.emcAmount == 'max') 
+                return Math.max(0, Math.floor((this.from.count - this.from.consumption) / this.to.rate))
+            else if (this.emcAmount == 'max-capital')
+                return Math.max(0, Math.floor((this.from.count - this.from.storage - this.from.consumption) / this.to.rate))
+            else 
+                return Math.floor(Math.min(this.emcAmount, this.from.count / this.to.rate))
         },
+        from: function() {
+            return this.data[this.data[this.id].source]
+        },
+        to: function() {
+            return this.data[this.id]
+        }
     },
     methods: {
         ...mapMutations([

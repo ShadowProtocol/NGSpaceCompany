@@ -2447,7 +2447,14 @@ export const store = createStore({
             let item = state.data[id]
             
             let amount
-            if (state.emcAmount == 'max') amount = Math.min(Math.floor((state.data[item.source].count - state.data[item.source].consumption) / item.rate), getters.getStorageCap(item.resource) - state.data[item.resource].count)
+            if (state.emcAmount == 'max') 
+                amount = Math.min(
+                    Math.floor((state.data[item.source].count - state.data[item.source].consumption) / item.rate), 
+                    getters.getStorageCap(item.resource) - state.data[item.resource].count)
+            else if (state.emcAmount == 'max-capital') 
+                amount = Math.min(
+                    Math.floor((state.data[item.source].count - state.data[item.source].storage - state.data[item.source].consumption) / item.rate), 
+                    getters.getStorageCap(item.resource) - state.data[item.resource].count);
             else amount = Math.min(state.emcAmount, getters.getStorageCap(item.resource) - state.data[item.resource].count)
             
             let required = (amount * item.rate)

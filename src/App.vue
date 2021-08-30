@@ -574,6 +574,7 @@
                                         <div class="small">{{ $t('selectEmcAmount') }}</div>
                                         <select class="form-control" v-model="selectedEmcAmount" @change="setEmcAmount(selectedEmcAmount)">
                                             <option value="max">Max</option>
+                                            <option value="max-capital" v-if="data['upgradeStorage3'].count > 0">Max From Rift</option>
                                             <option value="1">1</option>
                                             <option value="10">10</option>
                                             <option value="100">100</option>
